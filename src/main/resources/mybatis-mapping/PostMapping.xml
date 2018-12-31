@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.candyacao.dao.PostDao">
+    <resultMap id="BaseResultMap" type="com.github.candyacao.bean.Post">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="post_content" jdbcType="VARCHAR" property="content"/>
+        <result column="post_authorID" jdbcType="VARCHAR" property="authorID"/>
+        <result column="post_title" jdbcType="VARCHAR" property="title"/>
+        <result column="post_summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="post_photoLink" jdbcType="VARCHAR" property="photoLink"/>
+        <result column="post_createDate" jdbcType="VARCHAR" property="createDate"/>
+        <collection property="comments" ofType="com.github.candyacao.bean.Comment">
+            <id column="comID" property="id"/>
+            <result column="comment_createDate" property="createDate"/>
+            <result column="comment_content" property="content"/>
+            <association property="user" javaType="com.github.candyacao.bean.User">
+                <id column="id" jdbcType="VARCHAR" property="id"/>
+                <result column="user_name" jdbcType="VARCHAR" property="username"/>
+                <result column="user_password" jdbcType="VARCHAR" property="password"/>
+                <result column="user_gender" jdbcType="VARCHAR" property="gender"/>
+                <result column="user_birthday" jdbcType="VARCHAR" property="birthday"/>
+            </association>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        ,
+        post_content,
+        post_authorID,
+        post_title,
+        post_summary,
+        post_photoLink,
+        post_createDate,
+        post_comments
+    </sql>
+
+    <insert id="savePost" parameterType="com.github.candyacao.bean.Post">
+        insert into post
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="content != null">
+                post_content,
+            </if>
+            <if test="authorID != null">
+                post_authorID,
+            </if>
+            <if test="title != null">
+                post_title,
+            </if>
+            <if test="summary != null">
+                post_summary,
+            </if>
+            <if test="photoLink != null">
+                post_photoLink,
+            </if>
+            <if test="createDate != null">
+                post_createDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="content != null">
+            #{content,jdbcType=VARCHAR},
+        </if>
+        <if test="authorID != null">
+            #{authorID,jdbcType=VARCHAR},
+        </if>
+        <if test="title != null">
+            #{title,jdbcType=VARCHAR},
+        </if>
+        <if test="summary != null">
+            #{summary,jdbcType=VARCHAR},
+        </if>
+        <if test="photoLink != null">
+            #{photoLink,jdbcType=VARCHAR},
+        </if>
+        <if test="createDate != null">
+            #{createDate,jdbcType=DATE},
+        </if>
+        </trim>
+    </insert>
+</mapper>
