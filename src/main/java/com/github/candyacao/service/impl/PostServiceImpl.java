@@ -26,4 +26,8 @@ public class PostServiceImpl implements PostService {
         }
         return num > 0;
     }
+
+    public Post getPostByID(String id) {
+        return postDao.getPostByID(id);
+    }
 }

@@ -9,29 +9,27 @@
         <result column="post_summary" jdbcType="VARCHAR" property="summary"/>
         <result column="post_photoLink" jdbcType="VARCHAR" property="photoLink"/>
         <result column="post_createDate" jdbcType="VARCHAR" property="createDate"/>
-        <collection property="comments" ofType="com.github.candyacao.bean.Comment">
-            <id column="comID" property="id"/>
-            <result column="comment_createDate" property="createDate"/>
-            <result column="comment_content" property="content"/>
-            <association property="user" javaType="com.github.candyacao.bean.User">
-                <id column="id" jdbcType="VARCHAR" property="id"/>
-                <result column="user_name" jdbcType="VARCHAR" property="username"/>
-                <result column="user_password" jdbcType="VARCHAR" property="password"/>
-                <result column="user_gender" jdbcType="VARCHAR" property="gender"/>
-                <result column="user_birthday" jdbcType="VARCHAR" property="birthday"/>
-            </association>
-        </collection>
+        <!--<collection property="comments" ofType="com.github.candyacao.bean.Comment">-->
+            <!--<id column="comID" property="id"/>-->
+            <!--<result column="comment_createDate" property="createDate"/>-->
+            <!--<result column="comment_content" property="content"/>-->
+            <!--<association property="user" javaType="com.github.candyacao.bean.User">-->
+                <!--<id column="id" jdbcType="VARCHAR" property="id"/>-->
+                <!--<result column="user_name" jdbcType="VARCHAR" property="username"/>-->
+                <!--<result column="user_password" jdbcType="VARCHAR" property="password"/>-->
+                <!--<result column="user_gender" jdbcType="VARCHAR" property="gender"/>-->
+                <!--<result column="user_birthday" jdbcType="VARCHAR" property="birthday"/>-->
+            <!--</association>-->
+        <!--</collection>-->
     </resultMap>
     <sql id="Base_Column_List">
-        id
-        ,
+        id,
         post_content,
         post_authorID,
         post_title,
         post_summary,
         post_photoLink,
-        post_createDate,
-        post_comments
+        post_createDate
     </sql>
 
     <insert id="savePost" parameterType="com.github.candyacao.bean.Post">
@@ -83,4 +81,11 @@
         </if>
         </trim>
     </insert>
+
+    <select id="getPostByID" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from post
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
 </mapper>
