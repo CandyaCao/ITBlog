@@ -20,34 +20,29 @@ public class PostController {
     @RequestMapping(value = "/post/publish", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView publish(HttpServletRequest request, Post post) {
         ModelAndView mv = new ModelAndView();
-        post.setId(RandomString.ID());
         mv.setViewName("post");
         if (request.getMethod().equals(RequestMethod.POST.toString())) {
-
+            post.setId(RandomString.ID());
             System.out.println(post.toString());
-            boolean flag = postService.savePost(post);
-            if (!flag) {
+            if (!postService.savePost(post)) {
                 mv.setViewName("/post/publish");
+            } else {
+                mv.setViewName("redirect:/post/" + post.getId());
             }
-            mv.setViewName("redirect:/post/" + post.getId());
         }
         return mv;
     }
 
     @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
     public ModelAndView post(@PathVariable String id) {
-        Post post = postService.getPostByID(id);
-
         ModelAndView mv = new ModelAndView();
+        Post post = postService.getPostByID(id);
         if (post == null) {
-            //跳转至失败页
             mv.setViewName("fail");
-            return mv;
         } else {
-            //跳转至成功页
             System.out.println(post.toString());
             mv.setViewName("success");
-            return mv;
         }
+        return mv;
     }
 }
