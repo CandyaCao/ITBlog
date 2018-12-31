@@ -7,4 +7,6 @@ public interface UserService {
 	 * 根据ID获取用户信息
 	 */
 	public User getUserById(String id);
+	public boolean saveUser(User user);
+	public User login(User user);
 }

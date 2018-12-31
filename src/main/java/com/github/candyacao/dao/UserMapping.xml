@@ -3,12 +3,19 @@
 <mapper namespace="com.github.candyacao.dao.UserDao">
   <resultMap id="BaseResultMap" type="com.github.candyacao.bean.User">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="user_gender" jdbcType="VARCHAR" property="userGender" />
-    <result column="user_birthday" jdbcType="VARCHAR" property="userBirthday" />
+    <result column="user_name" jdbcType="VARCHAR" property="username" />
+    <result column="user_password" jdbcType="VARCHAR" property="password" />
+    <result column="user_gender" jdbcType="VARCHAR" property="gender" />
+    <result column="user_birthday" jdbcType="VARCHAR" property="birthday" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_name, user_gender, user_birthday
+  </sql>
+  <sql id="User_Base_Column_List">
+    id, user_name, user_gender, user_birthday
+  </sql>
+  <sql id="User_Base_Column_List_Inc_PWD">
+    id, user_name, user_password, user_gender, user_birthday
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -16,15 +23,23 @@
     from user
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByUsernameAndPasswd" parameterType="com.github.candyacao.bean.User" resultMap="BaseResultMap">
+    select
+    <include refid="User_Base_Column_List" />
+    from user
+    where user_name = #{username,jdbcType=VARCHAR} and user_password=#{password,jdbcType=VARCHAR}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.github.candyacao.bean.User">
-    insert into user (id, user_name, user_gender, 
+    insert into user (id, user_name, user_password, user_gender,
       user_birthday)
-    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userGender,jdbcType=VARCHAR}, 
-      #{userBirthday,jdbcType=VARCHAR})
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+      #{birthday,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.github.candyacao.bean.User">
     insert into user
@@ -32,13 +47,16 @@
       <if test="id != null">
         id,
       </if>
-      <if test="userName != null">
+      <if test="username != null">
         user_name,
       </if>
-      <if test="userGender != null">
+      <if test="password != null">
+        user_password,
+      </if>
+      <if test="gender != null">
         user_gender,
       </if>
-      <if test="userBirthday != null">
+      <if test="birthday != null">
         user_birthday,
       </if>
     </trim>
@@ -46,37 +64,44 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null">
-        #{userName,jdbcType=VARCHAR},
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
-      <if test="userGender != null">
-        #{userGender,jdbcType=VARCHAR},
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
-      <if test="userBirthday != null">
-        #{userBirthday,jdbcType=VARCHAR},
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.github.candyacao.bean.User">
     update user
     <set>
-      <if test="userName != null">
-        user_name = #{userName,jdbcType=VARCHAR},
+      <if test="username != null">
+        user_name = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="userGender != null">
-        user_gender = #{userGender,jdbcType=VARCHAR},
+      <if test="password != null">
+        user_password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="userBirthday != null">
-        user_birthday = #{userBirthday,jdbcType=VARCHAR},
+      <if test="gender != null">
+        user_gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        user_birthday = #{birthday,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.github.candyacao.bean.User">
     update user
-    set user_name = #{userName,jdbcType=VARCHAR},
-      user_gender = #{userGender,jdbcType=VARCHAR},
-      user_birthday = #{userBirthday,jdbcType=VARCHAR}
+    set user_name = #{username,jdbcType=VARCHAR},
+        user_password = #{password,jdbcType=VARCHAR},
+      user_gender = #{gender,jdbcType=VARCHAR},
+      user_birthday = #{birthday,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
