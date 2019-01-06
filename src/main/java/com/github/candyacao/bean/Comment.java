@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Comment {
     private String id;
-    private User user;
     private Date createDate;
     private String content;
+    private User user;
 
     public Comment() {}
 

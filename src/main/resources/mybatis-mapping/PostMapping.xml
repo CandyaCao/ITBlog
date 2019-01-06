@@ -88,4 +88,10 @@
         from post
         where id = #{id,jdbcType=VARCHAR}
     </select>
+    <select id="getPostsByAuthor" parameterType="com.github.candyacao.bean.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from post
+        where post_authorID=#{id,jdbcType=VARCHAR}
+    </select>
 </mapper>

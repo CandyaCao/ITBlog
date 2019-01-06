@@ -1,10 +1,13 @@
 package com.github.candyacao.service.impl;
 
 import com.github.candyacao.bean.Post;
+import com.github.candyacao.bean.User;
 import com.github.candyacao.dao.PostDao;
 import com.github.candyacao.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -29,5 +32,9 @@ public class PostServiceImpl implements PostService {
 
     public Post getPostByID(String id) {
         return postDao.getPostByID(id);
+    }
+
+    public List<Post> getPostsAll(User user) {
+        return postDao.getPostsByAuthor(user);
     }
 }

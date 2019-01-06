@@ -14,7 +14,6 @@ public class Post {
     private String photoLink;
     private Date createDate;
     private List<Comment> comments;
-
     public Post() {
     }
 

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.candyacao.dao.CommentDao">
+    <resultMap id="BaseResultMap" type="com.github.candyacao.bean.Comment">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="comment_createDate" jdbcType="VARCHAR" property="createDate"/>
+        <result column="comment_content" jdbcType="VARCHAR" property="content"/>
+        <!--<result column="post_photoLink" jdbcType="VARCHAR" property="photoLink"/>-->
+    </resultMap>
   
 </mapper>
