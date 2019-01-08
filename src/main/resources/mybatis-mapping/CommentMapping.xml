@@ -5,7 +5,59 @@
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="comment_createDate" jdbcType="VARCHAR" property="createDate"/>
         <result column="comment_content" jdbcType="VARCHAR" property="content"/>
-        <!--<result column="post_photoLink" jdbcType="VARCHAR" property="photoLink"/>-->
+        <result column="comment_postID" jdbcType="VARCHAR" property="postID"/>
+        <association property="user" javaType="com.github.candyacao.bean.User">
+            <id property="id" column="id"/>
+            <result property="username" column="user_name"/>
+            <result property="password" column="user_password"/>
+            <result property="gender" column="user_gender"/>
+            <result property="birthday" column="user_birthday"/>
+        </association>
     </resultMap>
-  
+    <insert id="saveComment" parameterType="com.github.candyacao.bean.Comment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="content != null">
+                comment_content,
+            </if>
+            <if test="user != null">
+                comment_userID,
+            </if>
+            <if test="postID != null">
+                comment_postID,
+            </if>
+            <if test="createDate != null">
+                comment_createDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="user != null">
+                #{user.id,jdbcType=VARCHAR},
+            </if>
+            <if test="postID != null">
+                #{postID,jdbcType=DATE},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteComment" parameterType="com.github.candyacao.bean.Comment">
+        delete from comment
+        where id = #{id}
+    </delete>
+    <select id="selectAllComment" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select user.user_name,comment_content from comment, user
+        where user.id = comment.comment_userID and comment_postID=#{postID}
+        order by comment.comment_createDate
+    </select>
 </mapper>

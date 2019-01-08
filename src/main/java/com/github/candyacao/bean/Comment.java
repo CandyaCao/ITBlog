@@ -7,6 +7,7 @@ public class Comment {
     private Date createDate;
     private String content;
     private User user;
+    private String postID;
 
     public Comment() {}
 
@@ -26,6 +27,10 @@ public class Comment {
         this.user = user;
     }
 
+    public String getPostID(){return postID;}
+
+    public void setPostID(String postID){this.postID = postID;}
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -41,6 +46,7 @@ public class Comment {
     public void setContent(String content) {
         this.content = content;
     }
+
 
     @Override
     public String toString() {

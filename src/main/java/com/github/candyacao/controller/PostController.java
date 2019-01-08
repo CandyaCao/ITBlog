@@ -1,7 +1,9 @@
 package com.github.candyacao.controller;
 
+import com.github.candyacao.bean.Comment;
 import com.github.candyacao.bean.Post;
 import com.github.candyacao.bean.User;
+import com.github.candyacao.service.CommentService;
 import com.github.candyacao.service.PostService;
 import com.github.candyacao.service.UserService;
 import com.github.candyacao.utils.RandomString;
@@ -22,12 +24,15 @@ public class PostController {
     private PostService postService;
     @Autowired
     private UserService userService;
-    @RequestMapping(value="/publish", method={RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView publish(HttpServletRequest request, Post post){
+    @Autowired
+    private CommentService commentService;
+
+    @RequestMapping(value = "/publish", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView publish(HttpServletRequest request, Post post) {
         ModelAndView mv = new ModelAndView();
-        User me =(User) request.getSession().getAttribute("s");
+        User me = (User) request.getSession().getAttribute("s");
         mv.setViewName("postPublish");
-        if (request.getMethod().equals(RequestMethod.POST.toString())){
+        if (request.getMethod().equals(RequestMethod.POST.toString())) {
             post.setId(RandomString.ID());
             post.setAuthorID(me.getId());
             post.setCreateDate(new Date());
@@ -37,17 +42,18 @@ public class PostController {
         }
         return mv;
     }
+
     @RequestMapping(value = "/post", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getPost(HttpServletRequest request, String userID) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("postsShow");
         User user;
-        if (userID != null && userID.equals("")){
+        if (userID != null && userID.equals("")) {
             user = userService.getUserById(userID);
-        }else {
-            user =(User) request.getSession().getAttribute("s");
+        } else {
+            user = (User) request.getSession().getAttribute("s");
         }
-        if (user != null){
+        if (user != null) {
             List<Post> posts = postService.getPostsAll(user);
             mv.addObject("posts", posts);
         }
@@ -62,7 +68,8 @@ public class PostController {
             mv.setViewName("fail");
         } else {
             System.out.println(post.toString());
-            mv.setViewName("success");
+            mv.setViewName("postShow");
+            mv.addObject("post",post);
         }
         return mv;
     }
