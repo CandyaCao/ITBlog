@@ -1,5 +1,6 @@
 package com.github.candyacao.service.impl;
 
+import com.github.candyacao.utils.PasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,11 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     public User login(User user) {
-        return userDao.selectByUsernameAndPasswd(user);
+        User user1 = userDao.selectByUsername(user.getUsername());
+        if (PasswordHash.validHash(user.getPassword(), user1.getSalt(), user1.getPwdHash()) == true){
+            return user1;
+        }
+        return null;
     }
 
     public boolean saveUser(User user) {

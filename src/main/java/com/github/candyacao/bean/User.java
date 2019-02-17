@@ -7,6 +7,8 @@ public class User {
     private String password1;
     private String gender;
     private String birthday;
+    private String salt;
+    private String pwdHash;
 
     public String getId() {
         return id;
@@ -56,6 +58,22 @@ public class User {
         this.birthday = birthday;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getPwdHash() {
+        return pwdHash;
+    }
+
+    public void setPwdHash(String pwdHash) {
+        this.pwdHash = pwdHash;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -65,6 +83,8 @@ public class User {
                 ", password1='" + password1 + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthday='" + birthday + '\'' +
+                ", salt='" + salt + '\'' +
+                ", pwdHash='" + pwdHash + '\'' +
                 '}';
     }
 }

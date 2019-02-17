@@ -11,4 +11,5 @@ public interface UserDao {
 	    int updateByPrimaryKeySelective(User record);
 	    int updateByPrimaryKey(User record);
 		User selectByUsernameAndPasswd(User user);
+		User selectByUsername(String username);
 }

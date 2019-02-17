@@ -1,5 +1,6 @@
 package com.github.candyacao.controller;
 
+import com.github.candyacao.utils.PasswordHash;
 import com.github.candyacao.utils.RandomString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,8 @@ public class UserController {
                 return mv;
             }
             user.setId(RandomString.ID());
+            user.setSalt(PasswordHash.generateSalt());
+            user.setPwdHash(PasswordHash.MD5WithSalt(user.getPassword(),user.getSalt()));
             userService.saveUser(user);
             mv.setViewName("redirect:signin");
         }
